@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Secure Cookies</title>
+    </head>
+    <body>
+        <h1>bcrypt client/server demo</h1>
+        <form id="form">
+            <label>
+                Username:
+                <input type="text" id="username" />
+            </label>
+            <label>
+                Password:
+                <input type="password" id="password" />
+            </label>
+        </form>
+        <button onclick="handleRegiser()">Regiser</button>
+        <button onclick="handleLogin()">Login</button>
+        <div>
+            <div>
+                Response: 
+                <span id="response"></span>
+            </div>
+        </div>
+    </body>
+    <script src="./axios.min.js"></script>
+    <script>
+        // JAVASCRIPT
+        axios.defaults.withCredentials = true
+
+        const usernameElement = document.getElementById('username');
+        const passwordElement = document.getElementById('password');
+        usernameElement.value = 'jaredpotter';
+        passwordElement.value = '<superSecretPassword>';
+        const url = 'http://localhost:3000';
+
+        function handleRegiser() {
+            axios
+                .post(`${url}/register`, {
+                    username: usernameElement.value,
+                    password: passwordElement.value
+                }, {
+                    withCredentials: true
+                })
+                .then(response => {
+                    // debugger;
+                    document.getElementById('response').textContent = 'Successfully Registered New User.';
+                })
+                .catch(error => {
+                    // debugger;
+                    document.getElementById('response').textContent = error.response.data;
+                });            
+        }
+
+        function handleLogin() {
+            axios
+                .post(`${url}/login`, {
+                    username: usernameElement.value,
+                    password: passwordElement.value
+                }, {
+                    withCredentials: true
+                })
+                .then(response => {
+                    // debugger;
+                    document.getElementById('response').textContent = 'Successfully Logged In.';
+                })
+                .catch(error => {
+                    // debugger;
+                    document.getElementById('response').textContent = error.response.data;
+                });
+        }
+    </script>
+</html>
